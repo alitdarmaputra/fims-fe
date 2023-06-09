@@ -1,9 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from "../../context/auth";
-import Book from "../Book/Book";
-import BookCreate from "../Book/Create";
-import BookEdit from "../Book/Edit";
 import Overview from "../Overview/Overview";
 import WithNav from "../Layout/WithNav";
 import Login from "../Login/Login"
@@ -27,15 +24,11 @@ export default function App() {
                 <Route path="/" element={<Navigate to={"/login"} />}></Route>
                 <Route element={<RouteGuard><WithNav /></RouteGuard>}>
                     <Route element={<Overview />} path="/overview"></Route>
-                    <Route element={<Book />} path="/book"></Route>
-                    <Route element={<Book />} path="/book"></Route>
                     <Route element={<Node />} path="/node"></Route>
                     <Route element={<NodeDetail />} path="/node/:id"></Route>
                     <Route element={<NodeEdit />} path="/node/:id/edit"></Route>
                     <Route element={<NodeEdit />} path="/node/:id/edit"></Route>
                     <Route element={<NodeCreate />} path="/node/create"></Route>
-                    <Route element={<BookCreate />} path="/book/create"></Route>
-                    <Route element={<BookEdit />} path="/book/:id/edit"></Route>
                     <Route element={<Team />} path="/team"></Route>
                 </Route>
                 <Route path="/login" element={<Login />} />
