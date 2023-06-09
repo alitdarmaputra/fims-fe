@@ -71,7 +71,7 @@ export default function Login() {
                 <div className="box-border login_form">
                     <img src={FimsLogoText} alt="Fims logo" className='h-10 md:absolute top-5 left-5'></img>
 
-                    <h1 className="title text-3xl font-bold">Wellcome back</h1>
+                    <h1 className="title text-3xl font-bold">Welcome back</h1>
                     <p className="sub_title mt-3 text-sm text-slate-500">Please enter your email and password.</p>
 
                     <form className="mt-8 md:w-96">
