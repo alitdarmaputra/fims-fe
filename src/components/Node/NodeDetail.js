@@ -40,7 +40,7 @@ export default function NodeDetail() {
         }
 
         getNodeDetail()
-    }, [id])
+    }, [id, histories])
 
     if (!authenticated) {
         return <Navigate replace to="/login"></Navigate>
