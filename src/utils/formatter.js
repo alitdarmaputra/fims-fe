@@ -1,5 +1,4 @@
 import moment from "moment";
-import 'moment/locale/id';
 
 export function numToIDR(strNum) {
     strNum = strNum.replace("Rp. ", "");
@@ -18,11 +17,21 @@ export function IDRToNum(idrNum) {
 }
 
 export function formatDateTime(datetime) {
-    moment.locale("id")
+    moment.locale("en")
     return moment(datetime).format("LLLL")
 }
 
 export function formatDate(datetime) {
-    moment.locale("id");
+    moment.locale("en");
     return moment(datetime).format("LL");
+}
+
+export function toCapitalize(str) {
+    str = str.toLowerCase();
+    let arr = str.split(" ");
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+
+    return arr.join(" ");
 }

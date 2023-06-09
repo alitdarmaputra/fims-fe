@@ -18,7 +18,7 @@ export default function Login() {
     const [authenticated, setAuth] = useState(false);
     const location = useLocation()
 
-    const redirectPath = location.state?.path || '/dashboard'
+    const redirectPath = location.state?.path || '/overview'
 
     const email = useRef('')
     const password = useRef('')

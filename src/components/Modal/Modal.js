@@ -23,8 +23,8 @@ export default function Modal({ active, setActive, title, children, action }) {
                 <hr className="mb-5"></hr>
                 <div className="modal__footer flex items-center">
                     <div className="yes-footer w-24 py-2 rounded-lg text-center bg-blue-700 text-white hover:bg-blue-800 hover:cursor-pointer" onClick={async () => { if (await action()) setActive(false) }
-                    }>Iya</div>
-                    <div className="cancle-footer ml-3 w-24 py-2 rounded-lg text-center bg-white hover:bg-gray-100 hover:cursor-pointer text-gray-500 border border-gray-200" onClick={() => setActive(!active)}>Batalkan</div>
+                    }>Yes</div>
+                    <div className="cancle-footer ml-3 w-24 py-2 rounded-lg text-center bg-white hover:bg-gray-100 hover:cursor-pointer text-gray-500 border border-gray-200" onClick={() => setActive(!active)}>Cancel</div>
                 </div>
             </div>
         </div>

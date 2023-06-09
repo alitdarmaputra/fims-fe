@@ -19,7 +19,7 @@ export default function ResetPassword() {
     const handleResetPassword = async e => {
         e.preventDefault();
         if (newPassword.current.value !== confirmPassword.current.value) {
-            notifyError("Password dan Konfirmasi Password tidak sama")
+            notifyError("Password and confirm password must be same")
         }
 
         const data = {
@@ -28,7 +28,7 @@ export default function ResetPassword() {
         }
 
         if (data.new_password === "") {
-            notifyError("Password Baru tidak boleh kosong");
+            notifyError("New password can not be empty");
             return;
         }
 
@@ -41,7 +41,7 @@ export default function ResetPassword() {
                 setLoading(false);
             }
         } catch (err) {
-            notifyError("Reset password gagal");
+            notifyError("Failed reset password");
             setLoading(false);
         }
     }
@@ -51,8 +51,8 @@ export default function ResetPassword() {
             <div className="flex w-full justify-center px-10">
                 <div className="verifikasi_message_container mt-12">
                     <img className="w-1/5 m-auto mt-20" src={Success} alt="login-animation"></img>
-                    <h1 className="mt-5 text-center text-3xl font-semibold">Reset Password Sukses</h1>
-                    <p className="text-center mt-5">Password telah diperbarui.</p>
+                    <h1 className="mt-5 text-center text-3xl font-semibold">Success Reset Password</h1>
+                    <p className="text-center mt-5">Password has been updated.</p>
                 </div>
             </div>
         )
@@ -74,8 +74,8 @@ export default function ResetPassword() {
                             <input ref={newPassword} id="new_password_input" placeholder="Password baru" className="font-sans focus:outline-none focus:shadow-md focus:shadow-blue-200 border-2 mt-2 w-full h-10 rounded-md p-2" type="password"></input>
                         </div>
                         <div className="mt-5 confirm_password_form">
-                            <label className="font-bold text-sm" htmlFor="konfirmasi_password">Konfirmasi Password <span className="text-red-500">*</span></label>
-                            <input ref={confirmPassword} id="konfirmasi_password" placeholder="Konfirmasi password" className="font-sans focus:outline-none focus:shadow-md focus:shadow-blue-200 border-2 mt-2 w-full h-10 rounded-md p-2" type="password"></input>
+                            <label className="font-bold text-sm" htmlFor="confirm_password">Confirm Password <span className="text-red-500">*</span></label>
+                            <input ref={confirmPassword} id="confirm_password" placeholder="Confirm password" className="font-sans focus:outline-none focus:shadow-md focus:shadow-blue-200 border-2 mt-2 w-full h-10 rounded-md p-2" type="password"></input>
                         </div>
 
                         {isLoading ?

@@ -7,31 +7,25 @@ import { BiUser } from 'react-icons/bi';
 import FimsLogoText from '../../assets/logo_text.svg';
 import { LuListTree } from 'react-icons/lu';
 import { TiThMenu } from 'react-icons/ti';
-import { useAuth } from "../../context/auth";
-import { parseJWT } from "../../utils/auth";
 
 export default function Navbar() {
     const [navbarActive, setNavbar] = useState(false)
-    const [bookSubmenu, setBookSubmenu] = useState(false)
-    const auth = useAuth();
-
-    const token = parseJWT(auth.cookies?.token);
 
     const menus = [
         {
             id: 0,
             title: "Overview",
-            url: "/dashboard",
+            url: "/overview",
             icon: <RxDashboard />,
         }, {
             id: 1,
             title: "Node",
-            url: "/test",
+            url: "/node",
             icon: <LuListTree />,
         }, {
             id: 2,
             title: "Team",
-            url: "/member",
+            url: "/team",
             icon: <BiUser />,
         }
     ]
@@ -69,8 +63,8 @@ export default function Navbar() {
                 </button>
             </div>
 
-            <div className={`navbar__container z-10 md:w-52 border-r border-gray-100 ${navbarActive ? "w-full" : "w-0"} fixed md:static bg-white h-screen pt-10 transition-all overflow-hidden`}>
-                <NavLink to="/dashboard" className="navbar__header flex items-center justify-center mb-8">
+            <div className={`navbar__container z-10 md:w-52 border-r border-gray-200 ${navbarActive ? "w-full" : "w-0"} fixed md:static bg-white h-screen pt-10 transition-all overflow-hidden`}>
+                <NavLink to="/overview" className="navbar__header flex items-center justify-center mb-8">
                     <img src={FimsLogoText} alt="fims-text-logo" className="h-7"></img>
                 </NavLink>
                 <div className="navbar__menus">
