@@ -81,7 +81,7 @@ export default function Team() {
                                         className="h-full w-full"></img>
                                 </div>
 
-                                <h2 className="mt-4 text-md">{user.name}</h2>
+                                <h2 className="mt-4 text-md text-center">{user.name}</h2>
                             </div>
                         )
                     })
