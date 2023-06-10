@@ -1,8 +1,23 @@
 import { formatDateTime, toCapitalize } from "../../utils/formatter";
 import axios from "axios";
 import httpRequest from "../../config/http-request";
+import { useState } from "react";
+import AsyncSelect from 'react-select/async';
 
 export default function NodeSidebar({ nodeDetail, status, setHistories }) {
+    let [assignee, setAssignee] = useState("")
+
+    const loadAssignee = async search => {
+        const res = await axios.get(`${httpRequest.api.baseUrl}/users?search=${search}`)
+        const options = res.data?.data?.map(option => {
+            return {
+                value: option.id,
+                label: `${option.name}`
+            }
+        })
+        return options;
+    }
+
     async function changeStatus() {
         const select = document.getElementById("select-node_status");
         select.disabled = true
@@ -25,7 +40,7 @@ export default function NodeSidebar({ nodeDetail, status, setHistories }) {
     }
 
     return (
-        <div className="detail_head__container justify-end box-border items-start bg-white p-5 border border-gray-200 rounded-md w-2/5 h-72">
+        <div className="detail_head__container justify-end box-border items-start bg-white p-5 border border-gray-200 rounded-md w-2/5 h-96">
             <select id="select-node_status" className="p-2 rounded-md bg-purple-700 text-white text-sm font-bold" onChange={changeStatus}>
                 {
                     status.length > 0 && status.map(item => {
@@ -55,6 +70,27 @@ export default function NodeSidebar({ nodeDetail, status, setHistories }) {
                     <td>{formatDateTime(nodeDetail.created_at)}</td>
                 </tr>
             </table>
+            <p className="font-bold mt-5 mb-5">Developer Assignee :</p>
+            <AsyncSelect
+                styles={{
+                    control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? '#E5E7EB' : '#E5E7EB',
+                        borderWidth: state.isFocused ? '2px' : '2px',
+                    }),
+                }}
+                classNames={{
+                    control: (state) => state.isFocused ? 'mt-2 rounded-md' : 'mt-2 rounded-md',
+                }}
+                id="select-assignee"
+                cacheOptions
+                loadOptions={loadAssignee}
+                placeholder="Select assignee"
+                noOptionsMessage={() => "User not found"}
+                onChange={choice => setAssignee(choice.value)}
+            >
+            </AsyncSelect>
+
         </div>
     )
 }
