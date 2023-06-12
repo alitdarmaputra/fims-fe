@@ -1,12 +1,9 @@
 import { formatDateTime, toCapitalize } from "../../utils/formatter";
 import axios from "axios";
 import httpRequest from "../../config/http-request";
-import { useState } from "react";
 import AsyncSelect from 'react-select/async';
 
-export default function NodeSidebar({ nodeDetail, status, setHistories }) {
-    let [assignee, setAssignee] = useState("")
-
+export default function NodeSidebar({ nodeDetail, setCurr, setHistories, status }) {
     const loadAssignee = async search => {
         const res = await axios.get(`${httpRequest.api.baseUrl}/users?search=${search}`)
         const options = res.data?.data?.map(option => {
@@ -26,6 +23,8 @@ export default function NodeSidebar({ nodeDetail, status, setHistories }) {
             status_id: parseInt(select.value)
         }
 
+        setCurr(payload.status_id);
+
         try {
             await axios.patch(`${httpRequest.api.baseUrl}/node/${nodeDetail.id}`, payload);
             const historiesRes = await axios.get(`${httpRequest.api.baseUrl}/node/${nodeDetail.id}/history`);
@@ -39,6 +38,28 @@ export default function NodeSidebar({ nodeDetail, status, setHistories }) {
         }
     }
 
+    async function changeAssginee(assigneeId) {
+        const select = document.getElementById("select-node_assignee");
+        select.disabled = true;
+
+        const payload = {
+            assignee_id: parseInt(assigneeId)
+        }
+
+        setCurr(payload.assignee_id);
+
+        try {
+            await axios.patch(`${httpRequest.api.baseUrl}/node/${nodeDetail.id}/assignee`, payload);
+            const historiesRes = await axios.get(`${httpRequest.api.baseUrl}/node/${nodeDetail.id}/history`);
+            select.disabled = false
+
+            if (historiesRes.status === 200) {
+                setHistories(historiesRes.data.data);
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <div className="detail_head__container justify-end box-border items-start bg-white p-5 border border-gray-200 rounded-md w-2/5 h-96">
             <select id="select-node_status" className="p-2 rounded-md bg-purple-700 text-white text-sm font-bold" onChange={changeStatus}>
@@ -82,12 +103,15 @@ export default function NodeSidebar({ nodeDetail, status, setHistories }) {
                 classNames={{
                     control: (state) => state.isFocused ? 'mt-2 rounded-md' : 'mt-2 rounded-md',
                 }}
-                id="select-assignee"
+                id="select-node_assignee"
                 cacheOptions
                 loadOptions={loadAssignee}
                 placeholder="Select assignee"
                 noOptionsMessage={() => "User not found"}
-                onChange={choice => setAssignee(choice.value)}
+                onChange={choice => changeAssginee(choice.value)}
+                defaultValue={{
+                    label: nodeDetail.assignee_name
+                }}
             >
             </AsyncSelect>
 

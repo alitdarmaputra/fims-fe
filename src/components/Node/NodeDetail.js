@@ -5,7 +5,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import httpRequest from "../../config/http-request";
 // import { useAuth } from "../../context/auth";
 // import { parseJWT } from "../../utils/auth";
-import { HistoryTypeCreate, HistoryTypeStatusChange, HistoryTypeUpdate } from "../../constanta/history-type";
+import { HistoryTypeCreate, HistoryTypeStatusChange, HistoryTypeAssigneeChange, HistoryTypeUpdate } from "../../constanta/history-type";
 import moment from "moment";
 import NodeSidebar from "./NodeSidebar";
 import parse from 'html-react-parser';
@@ -17,10 +17,9 @@ export default function NodeDetail() {
     const { id } = useParams();
     const [authenticated, setAuth] = useState(true);
     const [status, setStatus] = useState([]);
-    // const auth = useAuth();
-    // const token = parseJWT(auth.cookies?.token);
     const [histories, setHistories] = useState([]);
     const navigate = useNavigate();
+    const [currStatus, setCurr] = useState(0);
 
     useEffect(() => {
         async function getNodeDetail() {
@@ -40,7 +39,7 @@ export default function NodeDetail() {
         }
 
         getNodeDetail()
-    }, [id, histories])
+    }, [id, currStatus])
 
     if (!authenticated) {
         return <Navigate replace to="/login"></Navigate>
@@ -128,6 +127,18 @@ export default function NodeDetail() {
                                                 </div>
                                             </li>
                                         )
+                                    } else if (history.history_type === HistoryTypeAssigneeChange) {
+                                        return (
+                                            <li className="mb-10 ml-6">
+                                                <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white">
+                                                    <img className="rounded-full shadow-lg" src={history.updated_by_profile} alt="User profile" />
+                                                </span>
+                                                <a href={history.figma_url} target="_blank" rel="noopener noreferrer" className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex">
+                                                    <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">{moment(history.created_at).fromNow()}</time>
+                                                    <div className="text-sm font-normal"><span>{history.updated_by}</span> changed the assignee</div>
+                                                </a>
+                                            </li>
+                                        )
                                     }
                                     return <></>
                                 })
@@ -136,7 +147,7 @@ export default function NodeDetail() {
                     </div>
                 </div>
 
-                <NodeSidebar nodeDetail={nodeDetail} status={status} />
+                <NodeSidebar nodeDetail={nodeDetail} setCurr={setCurr} status={status} setHistories={setHistories} />
             </div>
 
         </div>
